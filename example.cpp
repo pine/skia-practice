@@ -8,23 +8,35 @@
 
 void drawEmoji(SkCanvas* canvas) {
     // 透過色でクリア
-    canvas->clear(SK_ColorTRANSPARENT);
+    /* canvas->clear(SK_ColorTRANSPARENT); */
+    canvas->clear(SK_ColorWHITE);
 
     // フォントを読み込み
     sk_sp<SkTypeface> noto = SkTypeface::MakeFromName("Noto Sans Mono CJK JP Bold", SkFontStyle());
 
-    SkPaint paint1, paint2;
-
+    // テキストのスタイルの指定
+    SkPaint paint1;
     paint1.setTextSize(64.0f);
     paint1.setAntiAlias(true);
     paint1.setColor(0xffEC71A1);
-    paint1.setStyle(SkPaint::kFill_Style);
+    paint1.setStyle(SkPaint::kStroke_Style);
+    paint1.setStrokeWidth(SkIntToScalar(5));
     paint1.setTextAlign(SkPaint::kCenter_Align);
     paint1.setTypeface(noto);
+
+    // フォントの高さを計算
+    SkPaint::FontMetrics fm;
+    SkScalar lineHeight = paint1.getFontMetrics(&fm);
 
     // テキスト追加
     const char text1[] = "良さ";
     const char text2[] = "そう";
+    canvas->drawString(text1, 64.0f, 64.0f - 4.0f,  paint1);
+    canvas->drawString(text2, 64.0f, 128.0f - 4.0f,  paint1);
+
+    paint1.setStrokeWidth(SkIntToScalar(0));
+    paint1.setStyle(SkPaint::kFill_Style);
+    paint1.setColor(0xffFFDCE9);
     canvas->drawString(text1, 64.0f, 64.0f - 4.0f,  paint1);
     canvas->drawString(text2, 64.0f, 128.0f - 4.0f,  paint1);
 }
